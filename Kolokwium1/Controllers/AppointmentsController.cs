@@ -25,4 +25,31 @@ public class AppointmentsController : ControllerBase
 
         return Ok(appointment);
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> AddAppointment([FromBody] AddAppointmentRequest request)
+    {
+        if (request == null || request.Services == null || request.Services.Count == 0)
+        {
+            return BadRequest(new { message = "Invalid request: missing data or services." });
+        }
+
+        var error = await _appointmentsService.AddAppointmentAsync(request);
+
+        if (error != null)
+        {
+
+            if (error.Contains("Appointment already exists"))
+                return Conflict(new { message = error });
+
+            if (error.Contains("Patient does not exist") || error.Contains("Doctor does not exist") || error.Contains("Service not found"))
+                return NotFound(new { message = error });
+
+            return BadRequest(new { message = error });
+        }
+        
+        return Ok("Appointment added");
+    }
+
+
 }
