@@ -1,4 +1,6 @@
 # APBD_KOLOKWIUM_1
 Kolokwium 1 APBD 
 
-Test string inside readme.md
+Przed uruchomieniem należy sprawdzić connectionString w appsettings.json lub appsettings.Development.json
+
+Pozdrawiam!
